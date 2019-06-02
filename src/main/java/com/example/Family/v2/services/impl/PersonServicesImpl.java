@@ -1,10 +1,15 @@
 package com.example.Family.v2.services.impl;
 
 import com.example.Family.v2.entitties.Person;
+import com.example.Family.v2.exceptions.DuplicatedEntityException;
+import com.example.Family.v2.exceptions.EntityNotFoundException;
+import com.example.Family.v2.exceptions.IdRequiredException;
+import com.example.Family.v2.exceptions.IllegalOperationException;
+import com.example.Family.v2.models.PersonModel;
 import com.example.Family.v2.repositories.PersonRepository;
 import com.example.Family.v2.services.PersonServices;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,71 +25,71 @@ public class PersonServicesImpl implements PersonServices {
 	}
 
 	@Override
-	public List<Person> findAll() {
+	public List<PersonModel> findAll() {
 
-		return personRepository.findAll();
+		return personRepository.findAll()
+							   .stream()
+							   .map(PersonModel::from)
+							   .collect(Collectors.toList());
+
+	}
+
+	@Override
+	public void delete(long id) throws EntityNotFoundException{
+		Person person = personRepository.findById(id).orElseThrow(()->new EntityNotFoundException(Person.class, id));
+
+		personRepository.delete(person);
+
 
 	}
 
-	@Override
-	public void delete(long id) {
-
-		personRepository.deleteById(id);
-
-	}
-	/*
-	@Override
-	public Person save(Person person) {
-		List<Person>sons = personRepository.findAll()
-										   .stream()
-										   .filter(p-> p.getDad().getId()==person.getId())
-										   .collect(Collectors.toList());
-
-
-
-		Person newPerson = new Person();
-
-		newPerson.setName(person.getName());
-		newPerson.setDad(person.getDad());
-		//newPerson.setSons(sons);
-		person.setSons(sons);
-
-
-		return personRepository.save(newPerson);
-
-	}*/
 
 
 	@Override
-	public Person save(Person person){
-		Person newPerson = new Person();
+	public PersonModel save(PersonModel personModel) throws EntityNotFoundException{
 
-		newPerson.setName(person.getName());
-		newPerson.setSons(newPerson.getSons());
+		Person person = new Person();
+		person.setName(personModel.getName());
+		person.setLastname(personModel.getLastName());
+		person.setAge(personModel.getAge());
+		person.setCountry(personModel.getCountry());
 
-		return personRepository.save(newPerson);
+
+		return PersonModel.from(personRepository.save(person));
+
+
 
 
 	}
 
 
 	@Override
-	public Person update(Person person, long id){
-		Person newPerson = personRepository.findById(id).get();
+	public PersonModel update(long id, PersonModel personModel) throws EntityNotFoundException, IdRequiredException, IllegalOperationException {
 
-		newPerson.setName(person.getName());
-		newPerson.setSons(person.getSons());
+		long modelId = personModel.getId().orElseThrow(IdRequiredException::new);
 
-		return personRepository.save(newPerson);
+		if (id != modelId)
+			throw new IllegalOperationException("IDs doesn't match");
 
+
+		Person person = personRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(Person.class, id));
+
+		person.setName(personModel.getName());
+		person.setLastname(personModel.getLastName());
+		person.setAge(personModel.getAge());
+		person.setCountry(personModel.getCountry());
+
+		return PersonModel.from(personRepository.save(person));
 
 	}
 
 
 	@Override
-	public Person findOne(long id) {
+	public PersonModel findOne(long id) throws EntityNotFoundException {
 
-		return personRepository.findById(id).get();
+		return personRepository.findById(id)
+							   .map(PersonModel::from)
+							   .orElseThrow(()-> new EntityNotFoundException(Person.class, id));
 
 	}
 

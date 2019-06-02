@@ -1,7 +1,12 @@
 package com.example.Family.v2.controllers;
 
 import com.example.Family.v2.entitties.Person;
+import com.example.Family.v2.exceptions.EntityNotFoundException;
+import com.example.Family.v2.exceptions.IdRequiredException;
+import com.example.Family.v2.exceptions.IllegalOperationException;
+import com.example.Family.v2.models.PersonModel;
 import com.example.Family.v2.services.PersonServices;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -18,35 +23,36 @@ public class PersonController {
 	}
 
 	@GetMapping("/people")
-	public List<Person> findAll(){
+	public List<PersonModel> findAll(){
 
 		return personServices.findAll();
 
 	}
 
 	@GetMapping("/people/{id}")
-	public Person findOne(@PathVariable Long id){
+	public PersonModel findOne(@PathVariable long id) throws EntityNotFoundException {
 
 		return personServices.findOne(id);
 	}
 
 
 	@DeleteMapping("/people/{id}")
-	public void delete(@PathVariable long id){
+	public void delete(@PathVariable long id) throws EntityNotFoundException{
 
 		personServices.delete(id);
 	}
 
 
 	@PostMapping("/people")
-	public Person save (@RequestBody Person person){
+	@ResponseStatus(HttpStatus.CREATED)
+	public PersonModel save (@Valid @RequestBody PersonModel personModel)throws EntityNotFoundException{
 
-		return personServices.save(person);
+		return personServices.save(personModel);
 	}
 
 	@PutMapping("/people/{id}")
-	public Person save(@Valid @RequestBody Person person, @PathVariable long id){
+	public PersonModel update(@PathVariable long id, @Valid @RequestBody PersonModel personModel ) throws EntityNotFoundException, IdRequiredException, IllegalOperationException {
 
-		return personServices.update(person, id);
+		return personServices.update(id,personModel);
 	}
 }

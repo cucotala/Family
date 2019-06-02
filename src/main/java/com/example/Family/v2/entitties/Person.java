@@ -16,6 +16,15 @@ public class Person {
 	@NotNull
 	private String name;
 
+	@NotNull
+	private String lastName;
+
+	@NotNull
+	private int age;
+
+	@NotNull
+	private String country;
+
 
 	@OneToMany
 	private List<Person> sons;
@@ -37,7 +46,13 @@ public class Person {
 		this.name = name;
 	}
 
+	public String getLastName() {
+		return lastName;
+	}
 
+	public void setLastname(String lastName) {
+		this.lastName = lastName;
+	}
 
 	public List<Person> getSons() {
 		return sons;
@@ -45,6 +60,23 @@ public class Person {
 
 	public void setSons(List<Person> sons) {
 		this.sons = sons;
+	}
+
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
 	}
 }
 
