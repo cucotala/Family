@@ -1,4 +1,4 @@
-package com.example.Family.v2.entitties;
+package com.example.Family.v2.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

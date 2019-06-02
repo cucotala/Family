@@ -1,7 +1,6 @@
 package com.example.Family.v2.services.impl;
 
-import com.example.Family.v2.entitties.Person;
-import com.example.Family.v2.exceptions.DuplicatedEntityException;
+import com.example.Family.v2.entities.Person;
 import com.example.Family.v2.exceptions.EntityNotFoundException;
 import com.example.Family.v2.exceptions.IdRequiredException;
 import com.example.Family.v2.exceptions.IllegalOperationException;
@@ -10,8 +9,6 @@ import com.example.Family.v2.repositories.PersonRepository;
 import com.example.Family.v2.services.PersonServices;
 import org.springframework.stereotype.Service;
 
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

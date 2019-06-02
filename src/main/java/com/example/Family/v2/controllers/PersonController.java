@@ -1,6 +1,5 @@
 package com.example.Family.v2.controllers;
 
-import com.example.Family.v2.entitties.Person;
 import com.example.Family.v2.exceptions.EntityNotFoundException;
 import com.example.Family.v2.exceptions.IdRequiredException;
 import com.example.Family.v2.exceptions.IllegalOperationException;

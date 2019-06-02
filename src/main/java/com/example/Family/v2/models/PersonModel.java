@@ -1,10 +1,8 @@
 package com.example.Family.v2.models;
 
-import com.example.Family.v2.entitties.Person;
+import com.example.Family.v2.entities.Person;
 
-import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 import java.util.Optional;
 
 public class PersonModel {

@@ -1,6 +1,6 @@
 package com.example.Family.v2.repositories;
 
-import com.example.Family.v2.entitties.Person;
+import com.example.Family.v2.entities.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

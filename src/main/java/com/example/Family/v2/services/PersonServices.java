@@ -1,7 +1,5 @@
 package com.example.Family.v2.services;
 
-import com.example.Family.v2.entitties.Person;
-import com.example.Family.v2.exceptions.DuplicatedEntityException;
 import com.example.Family.v2.exceptions.EntityNotFoundException;
 import com.example.Family.v2.exceptions.IdRequiredException;
 import com.example.Family.v2.exceptions.IllegalOperationException;
