@@ -16,12 +16,12 @@ public interface PersonServices {
 
 	void  delete(long id) throws EntityNotFoundException;
 
-	public PersonModel save(PersonModel personModel) throws EntityNotFoundException;
+	public PersonModel save(PersonModel personModel) throws EntityNotFoundException, IdRequiredException;
 
 	public PersonModel update(long id, PersonModel personModel) throws EntityNotFoundException, IdRequiredException, IllegalOperationException;
 
+	interface CustomUserDetailsService {
 
 
-
-
+	}
 }

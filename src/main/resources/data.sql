@@ -9,12 +9,6 @@ insert into person(name, age, country, last_name) values ('andrea', 20, 'japon',
 insert into person(name, age, country, last_name) values ('ricardo', 17, 'españa', 'callejas');
 insert into person(name, age, country, last_name) values ('pedro', 2, 'españa', 'callejas');
 
-
-
-
-
-insert into person_sons(person_id, sons_id) values(1,2);
-insert into person_sons(person_id, sons_id) values(1,3);
 insert into person_sons(person_id, sons_id) values(1,4);
 insert into person_sons(person_id, sons_id) values(1,5);
 insert into person_sons(person_id, sons_id) values(3,6);

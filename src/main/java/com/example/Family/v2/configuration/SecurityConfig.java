@@ -3,6 +3,8 @@ package com.example.Family.v2.configuration;
 import com.example.Family.v2.components.AuthenticationTokenFilter;
 import com.example.Family.v2.constants.AuthorityName;
 import com.example.Family.v2.constants.properties.JwtProperties;
+import com.example.Family.v2.services.impl.CustomUserDetailsServiceImpl;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,6 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return super.authenticationManagerBean();
 	}
 
+	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
@@ -57,9 +60,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.addFilter(new AuthenticationTokenFilter(jwtProperties, authenticationManagerBean()))
 			.authorizeRequests()
 			.antMatchers(HttpMethod.GET).permitAll()
+			.antMatchers(HttpMethod.POST).permitAll() ///esta es la que he inluido para reealizar pruebas. hay que eliminarla
 			.antMatchers("/auth/login").permitAll()
 			.anyRequest().hasAuthority(AuthorityName.ROLE_ADMIN.toString());
-
 	}
 
 }

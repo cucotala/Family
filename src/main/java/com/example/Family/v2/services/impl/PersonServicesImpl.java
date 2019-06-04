@@ -43,14 +43,39 @@ public class PersonServicesImpl implements PersonServices {
 
 
 	@Override
-	public PersonModel save(PersonModel personModel) throws EntityNotFoundException{
+	public PersonModel save(PersonModel personModel) throws EntityNotFoundException, IdRequiredException{
+
+
+		long idDadModel = personModel.getId().orElseThrow(IdRequiredException::new);
+
 
 		Person person = new Person();
 		person.setName(personModel.getName());
 		person.setLastname(personModel.getLastName());
 		person.setAge(personModel.getAge());
 		person.setCountry(personModel.getCountry());
+		//person.setDadId(idDadModel);
+		//person.setDad(personRepository.findById(idDadModel).get());
+		//person.setSons(personRepository.findAll()
+									//   .stream()
+									 //  .filter(p-> p.getDad().getId()==idDadModel)
+									 //  .collect(Collectors.toList()));
+		/*
+		person.setSons(personRepository.findAll()
+									   .stream()
+									   .filter(p-> p.getDad().getId()==person.getId()).collect(Collectors.toList()));*/
 
+		if (personModel.getDad() != null){
+
+			personRepository.findById(idDadModel).get().getSons().add(person);
+		}
+
+
+		//if (personRepository.findById(idDadModel).isPresent()){
+
+			//personRepository.findById(idDadModel).get().getSons().add(person);
+
+		//}
 
 		return PersonModel.from(personRepository.save(person));
 
@@ -64,6 +89,7 @@ public class PersonServicesImpl implements PersonServices {
 	public PersonModel update(long id, PersonModel personModel) throws EntityNotFoundException, IdRequiredException, IllegalOperationException {
 
 		long modelId = personModel.getId().orElseThrow(IdRequiredException::new);
+		long idDadModel = personModel.getId().orElseThrow(IdRequiredException::new);
 
 		if (id != modelId)
 			throw new IllegalOperationException("IDs doesn't match");
@@ -75,6 +101,14 @@ public class PersonServicesImpl implements PersonServices {
 		person.setLastname(personModel.getLastName());
 		person.setAge(personModel.getAge());
 		person.setCountry(personModel.getCountry());
+		person.setDad(personRepository.findById(idDadModel).orElseThrow(()-> new EntityNotFoundException(Person.class, idDadModel)));
+		/*person.setSons(personRepository.findAll()
+									   .stream()
+									   .filter(p-> p.getDad().getId()==person.getId())
+									   .collect(Collectors.toList())); */
+
+		personRepository.findById(idDadModel).get().getSons().add(person);
+
 
 		return PersonModel.from(personRepository.save(person));
 

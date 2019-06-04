@@ -22,6 +22,11 @@ public class Person {
 	@NotNull
 	private int age;
 
+	@ManyToOne
+	private Person dad;
+
+	//private long dadId;
+
 	@NotNull
 	private String country;
 
@@ -78,6 +83,20 @@ public class Person {
 	public void setCountry(String country) {
 		this.country = country;
 	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public Person getDad() {
+		return dad;
+	}
+
+	public void setDad(Person dad) {
+		this.dad = dad;
+	}
+
+
 }
 
 

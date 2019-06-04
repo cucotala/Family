@@ -44,7 +44,7 @@ public class PersonController {
 
 	@PostMapping("/people")
 	@ResponseStatus(HttpStatus.CREATED)
-	public PersonModel save (@Valid @RequestBody PersonModel personModel)throws EntityNotFoundException{
+	public PersonModel save (@Valid @RequestBody PersonModel personModel)throws EntityNotFoundException, IdRequiredException{
 
 		return personServices.save(personModel);
 	}
