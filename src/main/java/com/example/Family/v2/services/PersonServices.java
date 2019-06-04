@@ -18,7 +18,7 @@ public interface PersonServices {
 
 	public PersonModel save(PersonModel personModel) throws EntityNotFoundException, IdRequiredException;
 
-	public PersonModel update(long id, PersonModel personModel) throws EntityNotFoundException, IdRequiredException, IllegalOperationException;
+	public PersonModel update(Long id, PersonModel personModel) throws EntityNotFoundException, IdRequiredException, IllegalOperationException;
 
 	interface CustomUserDetailsService {
 

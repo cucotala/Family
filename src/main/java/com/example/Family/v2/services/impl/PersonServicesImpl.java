@@ -2,11 +2,14 @@ package com.example.Family.v2.services.impl;
 
 import com.example.Family.v2.entities.Person;
 import com.example.Family.v2.exceptions.EntityNotFoundException;
+import com.example.Family.v2.exceptions.IdRequiredException;
+import com.example.Family.v2.exceptions.IllegalOperationException;
 import com.example.Family.v2.models.PersonModel;
 import com.example.Family.v2.repositories.PersonRepository;
 import com.example.Family.v2.services.PersonServices;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityExistsException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,9 +61,33 @@ public class PersonServicesImpl implements PersonServices {
 
 
 	@Override
-	public PersonModel update(long id, PersonModel personModel) {
+	public PersonModel update(Long id, PersonModel personModel) throws EntityNotFoundException, IdRequiredException, IllegalOperationException{
+		long modelId = personModel.getId().orElseThrow(IdRequiredException::new);
+
+		if (id != modelId)
+			throw new IllegalOperationException("IDs doesn't match");
+
+		Person person = personRepository.findById(id)
+				.orElseThrow(()-> new EntityNotFoundException(Person.class, id));
+		person.setName(personModel.getName());
+		person.setLastName(personModel.getName());
+		person.setAge(personModel.getAge());
+		person.setCountry(personModel.getCountry());
+
+
+
+		if (personModel.getDadId().isPresent()){
+
+			person.setDad(personRepository.findById(personModel.getDadId().get())
+					.orElseThrow(()-> new EntityNotFoundException(Person.class)));
+
+		}
+		return PersonModel.from(personRepository.save(person));
+
 
 	}
+
+
 
 
 	@Override
