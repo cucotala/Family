@@ -74,13 +74,10 @@ public class PersonServicesImpl implements PersonServices {
 		person.setAge(personModel.getAge());
 		person.setCountry(personModel.getCountry());
 
-
-
 		if (personModel.getDadId().isPresent()){
 
 			person.setDad(personRepository.findById(personModel.getDadId().get())
 					.orElseThrow(()-> new EntityNotFoundException(Person.class)));
-
 		}
 		return PersonModel.from(personRepository.save(person));
 
