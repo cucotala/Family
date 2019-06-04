@@ -19,3 +19,5 @@ jwt:
   expiration: 24 #hours
   issuer: cristian
   authorities-claim: authorities
+server:
+  port: 8081

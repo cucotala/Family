@@ -2,6 +2,7 @@ package com.example.Family.v2.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -25,15 +26,11 @@ public class Person {
 	@ManyToOne
 	private Person dad;
 
-	//private long dadId;
-
 	@NotNull
 	private String country;
 
-
-	@OneToMany
+	@OneToMany(mappedBy = "dad")
 	private List<Person> sons;
-
 
 	public long getId() {
 		return id;
@@ -60,7 +57,7 @@ public class Person {
 	}
 
 	public List<Person> getSons() {
-		return sons;
+		return sons == null ? new ArrayList<>() : sons;
 	}
 
 	public void setSons(List<Person> sons) {

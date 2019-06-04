@@ -1,7 +1,6 @@
 package com.example.Family.v2.models;
 
 import com.example.Family.v2.entities.Person;
-import com.example.Family.v2.repositories.PersonRepository;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -10,11 +9,7 @@ import java.util.stream.Collectors;
 
 public class PersonModel {
 
-
-
 	private Long id;
-
-
 
 	@NotNull
 	private String name;
@@ -30,44 +25,25 @@ public class PersonModel {
 
 	private List<PersonModel> sons;
 
-	private PersonModel dad;
-
-	//private long dadIdModel;
-
-
+	private Long dadId;
 
 	public static PersonModel from(Person person){
-
 		PersonModel personModel = new PersonModel();
 		personModel.setId(person.getId());
 		personModel.setName(person.getName());
 		personModel.setLastName(person.getLastName());
 		personModel.setAge(person.getAge());
 		personModel.setCountry(person.getCountry());
-		//personModel.setDadMo(PersonModel.from(person.getDad()));
-		//personModel.setDadId(person.getDad().getId());
-		//personModel.setSons(person.getSons().stream().map(PersonModel::from).collect(Collectors.toList()));
 
-		//personModel.setSons(PersonRepository.find);
-		//personModel.setSons(PersonRepository.find);
-
-
-/*
-		if (person.getDad() != null){
-
+		if(person.getDad() != null)
 			personModel.setDadId(person.getDad().getId());
-			//personModel.setDad(PersonModel.from(person.getDad()));
-			//no se ponde el Person dad porque no queremos que apareza el padre al realizar la consulta
-		}
 
-*/
+		personModel.setSons(person.getSons().stream().map(PersonModel::from).collect(Collectors.toList()));
 
 		return personModel;
-
-
 	}
 
-	public Optional<Long> getId(){
+	public Optional<Long> getId() {
 		return Optional.ofNullable(id);
 	}
 
@@ -115,16 +91,11 @@ public class PersonModel {
 		this.sons = sons;
 	}
 
-
-	public PersonModel getDad() {
-		return dad;
+	public Optional<Long> getDadId() {
+		return Optional.ofNullable(dadId);
 	}
 
-	public void setDad(PersonModel dad) {
-		this.dad = dad;
+	public void setDadId(Long dadId) {
+		this.dadId = dadId;
 	}
-
-
-
-
 }
