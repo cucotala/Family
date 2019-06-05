@@ -9,7 +9,6 @@ import com.example.Family.v2.repositories.PersonRepository;
 import com.example.Family.v2.services.PersonServices;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityExistsException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -84,12 +83,13 @@ public class PersonServicesImpl implements PersonServices {
 		person.setAge(personModel.getAge());
 		person.setCountry(personModel.getCountry());
 
-
 		if (personModel.getDadId().isPresent()) {
 			person.setDad(personRepository.findById(personModel.getDadId().get())
 										  .orElseThrow(() -> new EntityNotFoundException(Person.class)));
+		}else{
+			person.setDad(null);
 		}
-		personModel
+
 
 		return PersonModel.from(personRepository.save(person));
 
