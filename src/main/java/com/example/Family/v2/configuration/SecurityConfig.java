@@ -60,9 +60,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.addFilter(new AuthenticationTokenFilter(jwtProperties, authenticationManagerBean()))
 			.authorizeRequests()
 			.antMatchers(HttpMethod.GET).permitAll()
-			.antMatchers(HttpMethod.POST).permitAll() ///esta es la que he inluido para reealizar pruebas. hay que eliminarla
-			.antMatchers("/auth/login").permitAll()
-			.anyRequest().hasAuthority(AuthorityName.ROLE_ADMIN.toString());
+			.antMatchers("/auth/login").permitAll()//permito el acceso a la ruta a TODOS
+			.antMatchers(HttpMethod.DELETE).hasAuthority(AuthorityName.ROLE_ADMIN.toString())
+			.anyRequest().hasAnyAuthority(AuthorityName.ROLE_USER.toString(),
+										 AuthorityName.ROLE_ADMIN.toString());
+
+
 	}
 
 }
